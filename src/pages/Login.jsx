@@ -30,7 +30,7 @@ function Login() {
             </label>
             <input
               type="text"
-              placeholder="you@example.com"
+              placeholder="malik@gmail.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-2 border mt-1 border-gray-300 rounded-md"
@@ -45,7 +45,7 @@ function Login() {
             </label>
             <input
               type="password"
-              placeholder="••••••••"
+              placeholder="123"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md"
