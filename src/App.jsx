@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import Login from "./pages/Login";
+import React, { useEffect, Suspense, lazy } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -7,16 +6,20 @@ import {
   useLocation,
 } from "react-router-dom";
 import AuthProvider from "./Context/AuthContext";
-import ProtectedRoute from "./components/ProtectedRoute";
-import Home from "./pages/Home";
-import Layout from "./layout/Layout";
-import Accessories from "./components/Accessories";
-import HomeAppliances from "./components/HomeAppliances";
-import Mobiles from "./components/Mobiles";
-import Watches from "./components/Watches";
-import Cart from "./pages/Cart";
 import ProductsProvider from "./Context/ProductsContext";
-import ProductDetails from "./components/ProductDetails";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Loading from "./pages/Loading";
+
+// Lazy-loaded pages/components
+const Login = lazy(() => import("./pages/Login"));
+const Home = lazy(() => import("./pages/Home"));
+const Accessories = lazy(() => import("./components/Accessories"));
+const HomeAppliances = lazy(() => import("./components/HomeAppliances"));
+const Mobiles = lazy(() => import("./components/Mobiles"));
+const Watches = lazy(() => import("./components/Watches"));
+const Cart = lazy(() => import("./pages/Cart"));
+const ProductDetails = lazy(() => import("./components/ProductDetails"));
+const Layout = lazy(() => import("./layout/Layout"));
 
 function App() {
   return (
@@ -24,67 +27,75 @@ function App() {
       <ProductsProvider>
         <Router>
           <ScrollToTop />
-          <Routes>
-            <Route index path="/" element={<Login />} />
-            <Route element={<Layout />}>
-              <Route
-                path="/home"
-                element={
-                  <ProtectedRoute>
-                    <Home />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/accessories"
-                element={
-                  <ProtectedRoute>
-                    <Accessories />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/homeappliances"
-                element={
-                  <ProtectedRoute>
-                    <HomeAppliances />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/mobiles"
-                element={
-                  <ProtectedRoute>
-                    <Mobiles />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/watches"
-                element={
-                  <ProtectedRoute>
-                    <Watches />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/cart"
-                element={
-                  <ProtectedRoute>
-                    <Cart />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/product-details/:id"
-                element={
-                  <ProtectedRoute>
-                    <ProductDetails />
-                  </ProtectedRoute>
-                }
-              />
-            </Route>
-          </Routes>
+          <Suspense
+            fallback={
+              <div>
+                <Loading />
+              </div>
+            }
+          >
+            <Routes>
+              <Route index path="/" element={<Login />} />
+              <Route element={<Layout />}>
+                <Route
+                  path="/home"
+                  element={
+                    <ProtectedRoute>
+                      <Home />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/accessories"
+                  element={
+                    <ProtectedRoute>
+                      <Accessories />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/homeappliances"
+                  element={
+                    <ProtectedRoute>
+                      <HomeAppliances />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/mobiles"
+                  element={
+                    <ProtectedRoute>
+                      <Mobiles />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/watches"
+                  element={
+                    <ProtectedRoute>
+                      <Watches />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/cart"
+                  element={
+                    <ProtectedRoute>
+                      <Cart />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/product-details/:id"
+                  element={
+                    <ProtectedRoute>
+                      <ProductDetails />
+                    </ProtectedRoute>
+                  }
+                />
+              </Route>
+            </Routes>
+          </Suspense>
         </Router>
       </ProductsProvider>
     </AuthProvider>
@@ -100,4 +111,5 @@ function ScrollToTop() {
 
   return null;
 }
+
 export default App;
