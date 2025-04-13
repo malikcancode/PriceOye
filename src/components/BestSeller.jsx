@@ -80,7 +80,7 @@ function BestSeller() {
               <img
                 loading="lazy"
                 className="w-24 sm:w-32 md:w-40 h-auto object-cover"
-                src="/public/Homeappliances/image1 (19).webp"
+                src="/Homeappliances/image1 (19).webp"
                 alt="LED"
               />
               <h3 className="text-sm sm:text-base">₹ 65,999</h3>
